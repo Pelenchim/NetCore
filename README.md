@@ -1,0 +1,2 @@
+# NetCore
+Test .net core
