@@ -62,6 +62,22 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
+header{
+    width: 100%;
+}
+content {
+    display: flex;
+    flex-direction: row;
+}
+aside {
+    position: absolute;
+    width: 300px;
+    height: calc(100% - 60px);
+}
+main{
+    width: calc(100% - 300px);
+    margin-left: 300px;
+}
 .footer {
   position: absolute;
   bottom: 0;
