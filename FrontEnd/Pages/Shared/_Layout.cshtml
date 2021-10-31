@@ -29,15 +29,20 @@
                     <a class="nav-link active" aria-current="page" href="#">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Categorias</a>
+                    <a class="nav-link" href="~/Catalogs/CatManager">Catalogos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Catalogs/CatCategoryView">Categorias</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Compras</a>
                 </li>
             </ul>
         </aside>
-        <main class="bg-light">
-            @RenderBody()
+        <main class="p-4">
+            <div class="py-4 px-2 shadow-sm bg-light">
+                @RenderBody()
+            </div>
         </main>
     </content>    
     <footer class="border-top footer text-muted bg-white">
