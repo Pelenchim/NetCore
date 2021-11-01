@@ -20,5 +20,11 @@ namespace FrontEnd.Controllers
             Ins.Save(Ins);
             return true;
         }
+        [HttpGet]
+        public object GetCategories()
+        {
+            CatCategory Ins = new CatCategory();            
+            return Ins.Get(Ins);
+        }
     }
 }

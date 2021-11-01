@@ -30,12 +30,29 @@
     </div>
     <div class="row">
         <div class="col">
-            <input type="button" class="btn-primary" id="BtnSave" value="Guardar">
+            <input type="button" class="btn btn-primary" id="BtnSave" value="Guardar">
         </div>
     </div>
 </div>
+<div class="container-fluid">
+    <table id="TableData" class="table">
+        <thead>
 
-<script>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
+
+<script type="module">
+    import CreateTable from "../js/TableComponent.js";
+    const LoadData = async () => {
+        let url = "../api/Values/GetCategories";
+        let response = await fetch(url);
+        response = await response.json();
+        CreateTable(response, TableData);
+    }
     window.onload = () => {
         BtnSave.onclick = async () => {
             const ObjIns = {                
@@ -53,6 +70,12 @@
                 },
                 body: JSON.stringify(ObjIns)
             });
+            response = await response.json();
+            if (response == true) {
+                alert("Datos Guardados");
+                LoadData();
+            }
         }
+        LoadData();
     }
 </script>

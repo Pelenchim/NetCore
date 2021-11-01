@@ -71,7 +71,7 @@ namespace Data
                 throw;
             }
         }
-        public Object TakeList(string TableName, Object Inst, string Condition)
+        public Object TakeList(string TableName, Object Inst, string? Condition)
         {
             try
             {
@@ -111,7 +111,14 @@ namespace Data
                 {
                     if (pro.Name == column.ColumnName)
                     {
-                        pro.SetValue(obj, dr[column.ColumnName], null);
+                        if (column.DataType == typeof(bool))
+                        {
+                            pro.SetValue(obj, Convert.ToInt32(dr[column.ColumnName]), null);
+                        }
+                        else
+                        {
+                            pro.SetValue(obj, dr[column.ColumnName], null);
+                        }
                     }
                     else
                     {

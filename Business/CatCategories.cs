@@ -25,5 +25,18 @@ namespace Business
                 throw;
             }
         }
+        public Object Get(CatCategory Inst)
+        {
+            try
+            {
+                SqlADOConnection.InitConnection("sa", "1234");
+                return SqlADOConnection.SQLM.TakeList(TableName, Inst, null);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }    
 }
