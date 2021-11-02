@@ -13,6 +13,7 @@ namespace FrontEnd.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        #region Category
         [HttpPost]
         public object SaveCategory(object ObjIns)
         {
@@ -26,5 +27,23 @@ namespace FrontEnd.Controllers
             CatCategory Ins = new CatCategory();            
             return Ins.Get(Ins);
         }
+        #endregion
+
+        #region
+        [HttpPost]
+        public object SaveClient(object ObjIns)
+        {
+            CatClients Ins = JsonConvert.DeserializeObject<CatClients>(ObjIns.ToString());
+            Ins.Save(Ins);
+            return true;
+        }
+        [HttpGet]
+        public object GetClients()
+        {
+            CatClients Ins = new CatClients();
+            return Ins.Get(Ins);
+        }
+
+        #endregion
     }
 }
