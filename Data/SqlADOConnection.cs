@@ -15,8 +15,7 @@ namespace Data
         {
             try
             {
-                UserSQLConnection = "Data Source=PELENCHIM\\PELENCHIM; Initial Catalog=DBCelulares; " + 
-                    "User ID=" + user + ";Password=" + password;
+                UserSQLConnection = "Data Source=PELENCHIM\\PELENCHIM; Initial Catalog=DBCelulares;Integrated Security=True;";
                 SQLM = new SqlServerGDatos(UserSQLConnection);
                 return true;
             }
