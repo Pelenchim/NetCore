@@ -96,5 +96,15 @@ namespace FrontEnd.Controllers
         }
 
         #endregion
+
+        #region Sales
+        [HttpGet]
+        public object GetSales()
+        {
+            Sales Ins = new Sales();
+            return Ins.Get(Ins);
+        }
+
+        #endregion
     }
 }

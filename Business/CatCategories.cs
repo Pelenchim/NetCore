@@ -17,7 +17,14 @@ namespace Business
             try
             {
                 SqlADOConnection.InitConnection("sa", "1234");
-                return SqlADOConnection.SQLM.InsertObject(TableName, Inst);
+                if (Inst.Id == 0)
+                {
+                    return SqlADOConnection.SQLM.InsertObject(TableName, Inst);
+                }
+                else
+                {
+                    return SqlADOConnection.SQLM.UpdateObject(TableName, Inst, "Id");
+                }
             }
             catch (Exception)
             {

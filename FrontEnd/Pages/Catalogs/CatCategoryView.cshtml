@@ -6,6 +6,7 @@
 
 <div class="container-fluid">
     <div class="row mb-2">
+        <input type="text" class="d-none" id="txtid" placeholder="id">
         <div class="col-4">
             <label for="code" class="form-label">Codigo</label>
             <input type="text" class="form-control" id="txtcode" placeholder="Codigo">
@@ -59,11 +60,20 @@
         let url = "../api/Values/GetCategories";
         let response = await fetch(url);
         response = await response.json();
-        CreateTable(response, TableData);
+        CreateTable(response, TableData, FunctionEdit);
+    }
+    const FunctionEdit = async (Item) => {
+        console.log(Item)
+        txtid.value = Item.id;
+        txtcode.value = Item.code;
+        txtname.value = Item.name;
+        txtdescription.value = Item.description;
+        ddstate.value = Item.state;
     }
     window.onload = () => {
         BtnSave.onclick = async () => {
-            const ObjIns = {                
+            const ObjIns = {
+                Id: txtid.value,
                 Name: txtname.value,
                 Description: txtdescription.value,
                 Code: txtcode.value,
@@ -81,6 +91,11 @@
             response = await response.json();
             if (response == true) {
                 LoadData();
+                txtid.value = "0";
+                txtcode.value = "";
+                txtname.value = "";
+                txtdescription.value = "";
+                ddstate.value = 0;
             }
         }
         LoadData();

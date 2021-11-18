@@ -71,6 +71,48 @@ namespace Data
                 throw;
             }
         }
+        public Object UpdateObject(string TableName, object Inst, string IdObject)
+        {
+            try
+            {
+                string Values = "";
+                Type _type = Inst.GetType();
+                PropertyInfo[] lst = _type.GetProperties();
+                PropertyInfo prop = lst[0];
+                foreach (PropertyInfo oProperty in lst)
+                {
+                    string AttributeName = oProperty.Name;
+                    var AttributeValue = oProperty.GetValue(Inst);
+
+                    if (AttributeName != "Id")
+                    {
+                        if (AttributeName != IdObject)
+                        {
+                            if (AttributeValue.GetType() == typeof(string) || AttributeValue.GetType() == typeof(DateTime))
+                            {
+                                Values = Values + AttributeName + "= '" + AttributeValue.ToString() + "',";
+                            }
+                            else
+                            {
+                                Values = Values + AttributeName + "=" + AttributeValue.ToString() + ',';
+                            }
+                        }
+                        else
+                        {
+                            prop = oProperty;
+                        }
+                    }
+                }
+                Values = Values.TrimEnd(',');
+                string strQuery = "UPDATE " + TableName + " SET " + Values + " WHERE " + IdObject + " = " + prop.GetValue(Inst).ToString();
+                return ExecuteSqlQuery(strQuery);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         public Object TakeList(string TableName, Object Inst, string? Condition)
         {
             try

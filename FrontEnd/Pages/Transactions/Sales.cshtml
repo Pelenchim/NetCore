@@ -1,0 +1,36 @@
+﻿@page
+@model FrontEnd.Pages.Transactions.SalesModel
+@{
+    Layout = "_Layout";
+}
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col">
+            <h4>Lista de Ventas Realizadas</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table id="TableData" class="table">
+                <thead>
+
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script type="module">
+    import CreateTable from "../js/TableComponent.js";
+    const LoadData = async () => {
+        let url = "../api/Values/GetSales";
+        let response = await fetch(url);
+        response = await response.json();
+        CreateTable(response, TableData);
+    }
+    window.onload = () => {
+        LoadData();
+    }
+</script>

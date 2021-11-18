@@ -4,12 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Practicas</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!--<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />-->
+    <link rel="stylesheet" href="~/css/styles.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-blue border-bottom box-shadow">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-page="/Index">Practicas</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -25,6 +26,15 @@
     <content>
         <aside class="border-right bg-white box-shadow">
             <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Transactions/Sales">Listado de Ventas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Transactions/NewSale">Nueva Venta</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Transactions/Buys">Compras</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">Inicio</a>
                 </li>
@@ -46,10 +56,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="~/Catalogs/CatRangeView">Gamas</a>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Compras</a>
-                </li>
             </ul>
         </aside>
         <main class="p-4">
@@ -57,7 +63,7 @@
                 @RenderBody()
             </div>
         </main>
-    </content>    
+    </content>
     <footer class="border-top footer text-muted bg-white">
         <div class="container">
             &copy; 2021 - FrontEnd - <a asp-area="" asp-page="/Privacy">Privacy</a>
@@ -65,7 +71,8 @@
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!--<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>-->
+    <script src="~/js/functions.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
