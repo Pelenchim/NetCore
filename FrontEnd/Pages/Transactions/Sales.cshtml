@@ -28,7 +28,7 @@
         let url = "../api/Values/GetSales";
         let response = await fetch(url);
         response = await response.json();
-        CreateTable(response, TableData);
+        CreateTable(response, TableData, null, "Ver");
     }
     window.onload = () => {
         LoadData();

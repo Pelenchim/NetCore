@@ -1,18 +1,23 @@
-﻿using System;
-using Data;
+﻿using Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Business
 {
-    public class CatCategory
+    public class SalesDetail
     {
-        private string TableName = "TblCategory";
+        private string TableName = "TblSaleDetail";
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Code { get; set; }
-        public int State { get; set; }
+        public int IdSale { get; set; }
+        public int IdProduct { get; set; }
+        public decimal Price { get; set; }
+        public decimal WarrantyDays { get; set; }
+        public decimal Discount { get; set; }
 
-        public Object Save(CatCategory Inst)
+        public Object Save(SalesDetail Inst)
         {
             try
             {
@@ -25,7 +30,7 @@ namespace Business
                 throw;
             }
         }
-        public Object Get(CatCategory Inst)
+        public Object Get(SalesDetail Inst)
         {
             try
             {
@@ -38,5 +43,5 @@ namespace Business
                 throw;
             }
         }
-    }    
+    }
 }

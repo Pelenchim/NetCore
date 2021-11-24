@@ -46,6 +46,23 @@ namespace FrontEnd.Controllers
 
         #endregion
 
+        #region Provider
+        [HttpPost]
+        public object SaveProvider(object ObjIns)
+        {
+            CatProviders Ins = JsonConvert.DeserializeObject<CatProviders>(ObjIns.ToString());
+            Ins.Save(Ins);
+            return true;
+        }
+        [HttpGet]
+        public object GetProviders()
+        {
+            CatProviders Ins = new CatProviders();
+            return Ins.Get(Ins);
+        }
+
+        #endregion
+
         #region Brand
         [HttpPost]
         public object SaveBrand(object ObjIns)
@@ -105,6 +122,15 @@ namespace FrontEnd.Controllers
             return Ins.Get(Ins);
         }
 
+        #endregion
+
+        #region Buys
+        [HttpGet]
+        public object GetBuys()
+        {
+            Buys Ins = new Buys();
+            return Ins.Get(Ins);
+        }
         #endregion
     }
 }

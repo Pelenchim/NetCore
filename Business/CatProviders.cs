@@ -7,16 +7,18 @@ using System.Threading.Tasks;
 
 namespace Business
 {
-    public class CatClients
+    public class CatProviders
     {
-        private string TableName = "TblClient";
+        private string TableName = "TblProvider";
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
+        public string Ruc { get; set; }
         public string Phone { get; set; }
-        public string Email { get; set; }
+        public string Direction { get; set; }
         public int State { get; set; }
 
-        public Object Save(CatClients Inst)
+        public Object Save(CatProviders Inst)
         {
             try
             {
@@ -36,7 +38,7 @@ namespace Business
                 throw;
             }
         }
-        public Object Get(CatClients Inst)
+        public Object Get(CatProviders Inst)
         {
             try
             {

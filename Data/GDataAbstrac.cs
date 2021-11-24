@@ -12,15 +12,22 @@ namespace Data
         protected abstract IDbConnection CreateConection(string stringCon);
         protected abstract IDbCommand CommandSQL(string commandSql, IDbConnection connection);
         protected abstract IDbDataAdapter CreateDataAdapterSQL(string commandSql, IDbConnection connection);
-        public bool ExecuteSqlQuery(string strQuery)
+        public object ExecuteSqlQuery(string strQuery)
         {
             try
             {                
                 SQLMCon.Open();
                 var cmd = CommandSQL(strQuery, SQLMCon);
-                cmd.ExecuteNonQuery();
+                var scalar = cmd.ExecuteScalar();
                 SQLMCon.Close();
-                return true;
+                if (scalar == (object)DBNull.Value)
+                {
+                    return true;
+                }
+                else
+                {
+                    return Convert.ToInt32(scalar);
+                }
             }
             catch (Exception)
             {
@@ -38,6 +45,7 @@ namespace Data
         {
             try
             {
+                string ColumnNames = "";
                 string Values = "";
                 Type _type = Inst.GetType();
                 PropertyInfo[] lst = _type.GetProperties();
@@ -48,21 +56,40 @@ namespace Data
 
                     if (AttributeName != "Id")
                     {
-                        if (AttributeValue.GetType() == typeof(string) || AttributeValue.GetType() == typeof(DateTime))
+                        if (AttributeValue.GetType() == typeof(string))
                         {
+                            ColumnNames = ColumnNames + AttributeName.ToString() + ",";
                             Values = Values + "'" + AttributeValue.ToString() + "',";
+                        }
+                        else if (AttributeValue.GetType() == typeof(DateTime))
+                        {
+                            ColumnNames = ColumnNames + AttributeName.ToString() + ",";
+                            Values = Values + "'" + ((DateTime)AttributeValue).ToString("yyyy/MM/dd") + "',";
                         }
                         else
                         {
-                            if ((Int32)AttributeValue != -1)
+                            if (AttributeValue.GetType() == typeof(int)) {
+                                if ((Int32)AttributeValue != -1)
+                                {
+                                    ColumnNames = ColumnNames + AttributeName.ToString() + ",";
+                                    Values = Values + AttributeValue.ToString() + ',';
+                                }
+                            }
+                            if (AttributeValue.GetType() == typeof(decimal))
                             {
-                                Values = Values + AttributeValue.ToString() + ',';
+                                if ((Decimal)AttributeValue != -1)
+                                {
+                                    ColumnNames = ColumnNames + AttributeName.ToString() + ",";
+                                    Values = Values + AttributeValue.ToString() + ',';
+                                }
                             }
                         }
                     }
                 }
+                ColumnNames = ColumnNames.TrimEnd(',');
                 Values = Values.TrimEnd(',');
-                string strQuery = "INSERT INTO " + TableName + " VALUES(" + Values + ")";
+                string strQuery = "INSERT INTO " + TableName + "(" + ColumnNames + ")" + 
+                    " VALUES(" + Values + ") SELECT SCOPE_IDENTITY()";
                 return ExecuteSqlQuery(strQuery);
             }
             catch (Exception)

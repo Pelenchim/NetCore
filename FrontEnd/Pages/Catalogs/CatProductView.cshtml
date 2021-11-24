@@ -1,0 +1,146 @@
+﻿@page
+@model FrontEnd.Pages.Catalogs.CatProductModel
+@{
+    Layout = "_Layout";
+}
+<script type="module">
+    import CreateTable from "../js/TableComponent.js";
+    import CreateDropDown from "../js/DropDownComponent.js";
+    const LoadData = async () => {
+        let url = "../api/Products/GetProducts";
+        let response = await fetch(url);
+        response = await response.json();
+        CreateTable(response[0], TableData, FunctionEdit);
+        CreateDropDown(response[1], ddcategory, "name", "id");
+        CreateDropDown(response[2], ddmodel, "name", "id");
+        CreateDropDown(response[3], ddbrand, "name", "id");
+        CreateDropDown(response[4], ddrange, "name", "id");
+    }
+    const FunctionEdit = async (Item) => {
+        txtid.value = Item.id;
+        txtname.value = Item.name;
+        txtstock.value = Item.stock;
+        txtprice.value = Item.price;
+        ddcategory.value = Item.idCategory;
+        ddmodel.value = Item.idModel;
+        ddrange.value = Item.idRange;
+        ddbrand.value = Item.idBrand;
+    }
+    window.onload = () => {
+        BtnSave.onclick = async () => {
+            let id;
+            if (!txtid.value) {
+                id = 0;
+            }
+            else {
+                id = txtid.value;
+            }
+            const ObjIns = {
+                Id: id,
+                Name: txtname.value,
+                Stock: txtstock.value,
+                Price: parseFloat(txtprice.value),
+                IdCategory: parseInt(ddcategory.value),
+                IdModel: parseInt(ddmodel.value),
+                IdBrand: parseInt(ddbrand.value),
+                IdRange: parseInt(ddrange.value)
+            }
+            let flag = true;
+            for (var prop in ObjIns) {
+                if (prop != "Id") {
+                    if (ObjIns[prop] == "") {
+                        flag = false;
+                        alert("la propiedad " + prop + " es requerida");
+                        break;
+                    }
+                }
+            }
+            if (!flag) {
+                return;
+            }
+            let url = "../api/Products/SaveProduct";
+            let response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json; charset-utf-8',
+                    'Accept': '*/*'
+                },
+                body: JSON.stringify(ObjIns)
+            });
+            response = await response.json();
+            if (response == true) {
+                LoadData();
+                txtid.value = "0";
+                txtname.value = "";
+                txtstock.value = "";
+                txtprice.value = "";
+                ddcategory.value = 1;
+                ddbrand.value = 1;
+                ddmodel.value = 1;
+                ddrange.value = 1;
+            }
+        }
+        LoadData();
+    }
+</script>
+<div class="container-fluid">
+    <div class="row mb-2">
+        <input type="text" class="d-none" id="txtid" placeholder="id">
+        <div class="col-6">
+            <label for="txtname" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="txtname" placeholder="Nombre">
+        </div>
+        <div class="col-3">
+            <label for="ddcategory" class="form-label">Categoria</label>
+            <select class="form-control form-select form-select-sm" id="ddcategory" aria-label="select">
+            </select>
+        </div>
+        <div class="col-3">
+            <label for="ddmodel" class="form-label">Modelo</label>
+            <select class="form-control form-select form-select-sm" id="ddmodel" aria-label="select">
+            </select>
+        </div>
+        <div class="col-3">
+            <label for="ddbrand" class="form-label">Marca</label>
+            <select class="form-control form-select form-select-sm" id="ddbrand" aria-label="select">
+            </select>
+        </div>
+        <div class="col-3">
+            <label for="ddrange" class="form-label">Gama</label>
+            <select class="form-control form-select form-select-sm" id="ddrange" aria-label="select">
+            </select>
+        </div>
+        <div class="col-3">
+            <label for="txtstock" class="form-label">Stock</label>
+            <input type="text" class="form-control" id="txtstock" placeholder="Stock">
+        </div>
+        <div class="col-3">
+            <label for="txtprice" class="form-label">Precio</label>
+            <input type="text" class="form-control" id="txtprice" placeholder="Precio">
+        </div>
+    </div>
+    <div class="row my-2">
+        <div class="col d-flex justify-content-end">
+            <input type="button" class="btn btn-primary" id="BtnSave" value="Guardar">
+        </div>
+    </div>
+</div>
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col">
+            <h4>Lista de Productos</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table id="TableData" class="table">
+                <thead>
+
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
