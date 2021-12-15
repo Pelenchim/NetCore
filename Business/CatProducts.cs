@@ -18,6 +18,8 @@ namespace Business
         public int IdBrand { get; set; }
         public int IdRange { get; set; }
         public decimal Price { get; set; }
+        public string IMEI { get; set; }
+        public int WarrantyDays { get; set; }
 
         public Object Save(CatProducts Inst)
         {

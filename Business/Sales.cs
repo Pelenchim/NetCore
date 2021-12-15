@@ -36,6 +36,15 @@ namespace Business
                     //NewID.IdSale = (JsonConvert.DeserializeObject<SalesDetail>(row.ToString())).IdSale;
                     row.IdSale = IdSale;
                     row.Save(row);
+
+                    Kardex Kardex = new Kardex();
+                    Kardex.Type = "Salida";
+                    Kardex.IdProduct = row.IdProduct;
+                    Kardex.Quantity = 1;
+                    Kardex.IdTransaction = IdSale;
+                    Kardex.Date = DateTime.Now;
+                    Kardex.Price = row.Price;
+                    Kardex.Save(Kardex);
                 }
                 return true;
             }

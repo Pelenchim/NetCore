@@ -12,6 +12,7 @@ namespace Data
         protected abstract IDbConnection CreateConection(string stringCon);
         protected abstract IDbCommand CommandSQL(string commandSql, IDbConnection connection);
         protected abstract IDbDataAdapter CreateDataAdapterSQL(string commandSql, IDbConnection connection);
+        protected abstract IDbDataAdapter CreateDataAdapterSQL(IDbCommand commandSql);
         public object ExecuteSqlQuery(string strQuery)
         {
             try
@@ -39,6 +40,12 @@ namespace Data
         {
             DataSet ObjDS = new DataSet();
             CreateDataAdapterSQL(queryString, SQLMCon).Fill(ObjDS);
+            return ObjDS.Tables[0].Copy();
+        }
+        public DataTable GetDataSQL(IDbCommand queryString)
+        {
+            DataSet ObjDS = new DataSet();
+            CreateDataAdapterSQL(queryString).Fill(ObjDS);
             return ObjDS.Tables[0].Copy();
         }
         public Object InsertObject(string TableName, object Inst)
@@ -160,6 +167,35 @@ namespace Data
                 throw;
             }
         }
+        public Object TakeListWithProcedure(string ProcedureName, Object Inst, List<Object> Params)
+        {
+            try
+            {
+                SQLMCon.Open();
+                var Command = CommandSQL(ProcedureName, SQLMCon);
+                Command.CommandType = CommandType.StoredProcedure;
+                SqlCommandBuilder.DeriveParameters((SqlCommand)Command);
+                SQLMCon.Close();
+                if (Params.Count != 0)
+                {
+                    int i = 0;
+                    foreach (var param in Params)
+                    {
+                        var p = (SqlParameter)Command.Parameters[i + 1];
+                        p.Value = param;
+                        i++;
+                    }
+                }
+                DataTable Table = GetDataSQL(Command);
+                List<Object> ListD = ConvertDataTable(Table, Inst);
+                return ListD;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         private static List<Object> ConvertDataTable(DataTable dt, Object Inst)
         {
             List<Object> data = new List<object>();
@@ -197,6 +233,5 @@ namespace Data
             }
             return obj;
         }
-
     }
 }

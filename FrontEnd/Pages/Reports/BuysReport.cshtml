@@ -1,0 +1,106 @@
+﻿@page
+@model FrontEnd.Pages.Reports.BuysReportModel
+@{
+    Layout = "_Layout";
+}
+<script type="module">
+    import CreateTableReport from "../js/ReportComponent.js";
+    const LoadData = async () => {
+        let today = new Date();
+        let VarDateInit = DateInit.value;
+        let VarDateEnd = DateEnd.value;
+        if (!VarDateInit) {
+            VarDateInit = today;
+        }
+        if (!VarDateEnd) {
+            VarDateEnd = today;
+        }
+        //console.log(VarDateInit);
+
+        let url = "../api/Reports/GenerateBuyssReport";
+        const ObjIns= {
+            Params: [VarDateInit, VarDateEnd]
+        }
+        let response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json; charset-utf-8',
+                'Accept': '*/*'
+            },
+            body: JSON.stringify(ObjIns)
+        });
+        response = await response.json();
+        //console.log(response);
+        labelSubTitle.innerText = "Reporte de Compras";
+        CreateTableReport(response, tableData, ["id", "fecha", "comprador", "proveedor", "subtotal", "total"]);
+        let sum = 0;
+        response.forEach(element => {
+            sum++;
+        });
+        latelTotal.innerHTML = "";
+        latelTotal.append("Total: " + sum);
+    }
+    window.onload = () => {
+        LoadData();
+        btnUpdate.onclick = () => {
+            LoadData();
+        }
+        btnPrint.onclick = () => {
+            const printNode = page.innerHTML;
+            const windowprint = window.open(' ', 'popimpr');
+            windowprint.document.write(printNode);
+            windowprint.document.close();
+            windowprint.print();
+            windowprint.close();
+        }
+    }
+</script>
+<div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-5">
+            <label for="DateInit" class="form-label">Fecha Inicio</label>
+            <input type="date" class="form-control" id="DateInit" placeholder="Fecha Inicio">
+        </div>
+        <div class="col-5">
+            <label for="DateEnd" class="form-label">Fecha Fin</label>
+            <input type="date" class="form-control" id="DateEnd" placeholder="Fecha Fin">
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-10 d-flex justify-content-end">
+            <input type="button" class="btn btn-primary mr-2" id="btnPrint" value="Imprimir">
+            <input type="button" class="btn btn-primary" id="btnUpdate" value="Actualizar">
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row" id="page">
+        <style>
+            .table td, .table th{
+                padding: 1rem;
+                border-bottom: solid 1px #808080;
+            }
+            .table-end{
+                width: 100%;
+                margin-top: 20px;
+                display: flex;
+                justify-content: end;
+            }
+        </style>
+        <div class="col-12 mb-2">
+            <section>
+                <h1 class="">Reporte</h1>
+                <h4 id="labelSubTitle">Reporte de Compras por Fecha</h4>
+            </section>
+        </div>
+        <div class="col-12">
+            <table id="tableData" class="table">
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="col-12 d-flex justify-content-end mb-5 table-end">
+            <label id="latelTotal"></label>
+        </div>     
+    </div>
+</div>

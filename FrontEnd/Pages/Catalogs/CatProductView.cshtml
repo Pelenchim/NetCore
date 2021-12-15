@@ -17,6 +17,7 @@
         CreateDropDown(response[4], ddrange, "name", "id");
     }
     const FunctionEdit = async (Item) => {
+        console.log(Item);
         txtid.value = Item.id;
         txtname.value = Item.name;
         txtstock.value = Item.stock;
@@ -25,6 +26,8 @@
         ddmodel.value = Item.idModel;
         ddrange.value = Item.idRange;
         ddbrand.value = Item.idBrand;
+        txtimei.value = Item.imei;
+        txtwarranty.value = Item.warrantyDays;
     }
     window.onload = () => {
         BtnSave.onclick = async () => {
@@ -43,7 +46,9 @@
                 IdCategory: parseInt(ddcategory.value),
                 IdModel: parseInt(ddmodel.value),
                 IdBrand: parseInt(ddbrand.value),
-                IdRange: parseInt(ddrange.value)
+                IdRange: parseInt(ddrange.value),
+                IMEI: txtimei.value,
+                WarrantyDays: txtwarranty.value
             }
             let flag = true;
             for (var prop in ObjIns) {
@@ -74,6 +79,8 @@
                 txtname.value = "";
                 txtstock.value = "";
                 txtprice.value = "";
+                txtimei.value = "";
+                txtwarranty.value = "";
                 ddcategory.value = 1;
                 ddbrand.value = 1;
                 ddmodel.value = 1;
@@ -109,6 +116,14 @@
             <label for="ddrange" class="form-label">Gama</label>
             <select class="form-control form-select form-select-sm" id="ddrange" aria-label="select">
             </select>
+        </div>
+        <div class="col-3">
+            <label for="txtstock" class="form-label">IMEI</label>
+            <input type="text" class="form-control" id="txtimei" placeholder="Stock">
+        </div>
+        <div class="col-3">
+            <label for="txtstock" class="form-label">Dias de Garantia</label>
+            <input type="text" class="form-control" id="txtwarranty" placeholder="Stock">
         </div>
         <div class="col-3">
             <label for="txtstock" class="form-label">Stock</label>

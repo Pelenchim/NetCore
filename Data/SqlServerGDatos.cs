@@ -26,5 +26,10 @@ namespace Data
             var DA = new SqlDataAdapter((SqlCommand)CommandSQL(commandSql, connection));
             return DA;
         }
+        protected override IDbDataAdapter CreateDataAdapterSQL(IDbCommand commandSql)
+        {
+            var DA = new SqlDataAdapter((SqlCommand)commandSql);
+            return DA;
+        }
     }
 }

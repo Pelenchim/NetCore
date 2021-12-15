@@ -17,4 +17,10 @@
     <ProjectReference Include="..\Business\Business.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Pages\Reports\SalesReport - Copia.cshtml.cs">
+      <DependentUpon>SalsReport.cshtml.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>
